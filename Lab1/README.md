@@ -20,4 +20,4 @@ python main.py -n 5
 
 ## Options
 
-- `-n`, `--nodes` — number of nodes in the ring (default: 1, minimum: 2)
+- `-n`, `--nodes` — number of nodes in the ring (default: 3, minimum: 2)

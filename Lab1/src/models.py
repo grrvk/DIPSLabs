@@ -84,19 +84,16 @@ class ProcessNode:
     def _handle_in_message(self, message: DefaultMessage, connection: Connection):
 
         if message.uid == self.uid:
-            self._mark_received_direction(connection)
+            if connection is self.cwc:
+                self.received_clockwise = True
+            else:
+                self.received_counterclockwise = True
             if self.received_clockwise and self.received_counterclockwise:
                 self._advance_phase()
         else:
             direction = "clockwise" if connection is self.cwc else "counterclockwise"
             logger.debug(f"Node [{self.uid}] forwarding IN msg uid={message.uid} {direction}")
             connection.send(message)
-
-    def _mark_received_direction(self, connection: Connection):
-        if connection is self.cwc:
-            self.received_clockwise = True
-        else:
-            self.received_counterclockwise = True
 
     def _advance_phase(self):
         self.phase += 1

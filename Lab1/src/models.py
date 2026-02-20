@@ -69,6 +69,7 @@ class ProcessNode:
         if isinstance(message, LeaderMessage):
             self.leader_uid = message.uid
             if message.uid != self.uid:
+                print(f'Node [{self.uid}]: Leader is {self.leader_uid}')
                 self.cwc.send(message)
                 self.leader_forwarded = True
             return
@@ -155,7 +156,7 @@ class ProcessNode:
                 message = conn.recv()
                 self._receive_message(message, conn)
 
-        print(f'Node [{self.uid}]: Leader is {self.leader_uid}')
+        time.sleep(0.5)
         self.print_statistics()
         self.active = False
 

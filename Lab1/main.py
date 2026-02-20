@@ -5,7 +5,7 @@ def build_args():
     import argparse
 
     parser = argparse.ArgumentParser(description='Ring leader election')
-    parser.add_argument('-n', '--nodes', type=int, default=1, help='Number of nodes')
+    parser.add_argument('-n', '--nodes', type=int, default=3, help='Number of nodes')
 
     return parser.parse_args()
 

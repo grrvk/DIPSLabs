@@ -7,11 +7,11 @@ Finds a Maximum Independent Set (MIS) in a tree.
 ```bash
 cd Lab2
 uv sync
-uv run main.py -n 10                # random tree, 10 nodes
+uv run main.py --nodes 10                # random tree, 10 nodes
 uv run main.py --base star          # base star
 ```
 
 ## Options
 
-- `-n` — number of nodes for random generation (default: 10)
+- `--nodes` — number of nodes for random generation (default: 10)
 - `--base` — use a base tree: `star`, `binary`

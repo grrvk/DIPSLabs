@@ -48,7 +48,7 @@ def plot_tree(tree: Tree) -> None:
         graph, pos,
         with_labels=True,
         labels={v: str(v) for v in range(tree.n)},
-        node_size=800,
+        node_size=400,
         font_color="white",
         font_weight="bold",
         edge_color="gray",

@@ -8,7 +8,7 @@ def build_args():
 
     source = parser.add_mutually_exclusive_group()
     source.add_argument(
-        "-n", type=int, default=10,
+        "--nodes", type=int, default=10,
         help="Number of nodes for random tree generation",
     )
     source.add_argument(

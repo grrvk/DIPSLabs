@@ -7,8 +7,8 @@ class Node:
     parent: int = -1
     children: list[int] = field(default_factory=list)
 
-    mis_size_if_excluded: int = 0
-    mis_size_if_included: int = 1
+    min_size_if_excluded: int = 0
+    min_size_if_included: int = 1
 
 
 @dataclass

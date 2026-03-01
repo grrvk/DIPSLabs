@@ -80,15 +80,15 @@ def solve_mis(tree: Tree) -> MISResult:
 
     for v in order:
         node = nodes[v]
-        node.mis_size_if_excluded = sum(
-            max(nodes[c].mis_size_if_excluded, nodes[c].mis_size_if_included)
+        node.min_size_if_excluded = sum(
+            max(nodes[c].min_size_if_excluded, nodes[c].min_size_if_included)
             for c in node.children
         )
-        node.mis_size_if_included = 1 + sum(nodes[c].mis_size_if_excluded for c in node.children)
+        node.min_size_if_included = 1 + sum(nodes[c].min_size_if_excluded for c in node.children)
 
     root = nodes[0]
     mis_ids: list[int] = []
-    recon: list[tuple[int, bool]] = [(0, root.mis_size_if_included >= root.mis_size_if_excluded)]
+    recon: list[tuple[int, bool]] = [(0, root.min_size_if_included >= root.min_size_if_excluded)]
     while recon:
         v, include = recon.pop()
         node = nodes[v]
@@ -96,8 +96,8 @@ def solve_mis(tree: Tree) -> MISResult:
             mis_ids.append(v)
         for child_id in node.children:
             child = nodes[child_id]
-            child_include = False if include else (child.mis_size_if_included >= child.mis_size_if_excluded)
+            child_include = False if include else (child.min_size_if_included >= child.min_size_if_excluded)
             recon.append((child_id, child_include))
 
-    size = max(root.mis_size_if_excluded, root.mis_size_if_included)
+    size = max(root.min_size_if_excluded, root.min_size_if_included)
     return MISResult(size=size, nodes=sorted(mis_ids))

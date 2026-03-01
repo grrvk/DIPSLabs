@@ -32,6 +32,7 @@ class ProcessNode:
         self.phase = 0
         self.status = "Default"
         self.leader_uid = None
+        self.rounds = 1
 
         self.cwc = clockwise_conn
         self.ccwc = counterclockwise_conn
@@ -132,7 +133,7 @@ class ProcessNode:
     def print_statistics(self):
         logger.info(
             f"Node [{self.uid}] statistics: status={self.status}, "
-            f"phases_active={self.phase}, "
+            f"rounds_active={self.rounds}, "
             f"clockwise_received={self.total_clockwise_received}, "
             f"counterclockwise_received={self.total_counterclockwise_received}"
         )
@@ -145,6 +146,8 @@ class ProcessNode:
             ready_conns = wait([self.cwc, self.ccwc], timeout=0.1)
             if not ready_conns:
                 continue
+
+            self.rounds += 1
 
             for conn in ready_conns:
                 message = conn.recv()

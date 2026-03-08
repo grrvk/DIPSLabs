@@ -1,7 +1,7 @@
 [project]
-name = "Lab3"
+name = "Lab4"
 version = "0.1.0"
-description = "Distributed information processing systems Lab 3"
+description = "Distributed information processing systems Lab 4"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

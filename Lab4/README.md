@@ -1,4 +1,4 @@
-# Lab 3 — Dining philosophers
+# Lab 4 — Dining philosophers
 
 Solve the dining philosophers problem (each in a separate thread) for:
 1.    N = 5 using a single counting semaphore;
@@ -8,7 +8,7 @@ Solve the dining philosophers problem (each in a separate thread) for:
 ## Run
 
 ```bash
-cd Lab3
+cd Lab4
 uv sync
 uv run main.py --solution 1
 ```

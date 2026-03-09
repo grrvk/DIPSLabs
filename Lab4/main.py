@@ -2,14 +2,14 @@ from argparse import ArgumentParser, Namespace
 import time
 import threading
 
-from src import solution1, solution2, solution1opt
+from src import solution1, solution2
 
 def parse_arguments() -> Namespace:
     parser = ArgumentParser()
 
     parser.add_argument(
         "--solution",
-        choices=["1", "2", "1.1"],
+        choices=["1", "2"],
         default="1",
         help="Which solution to run (default: 1)",
     )
@@ -17,7 +17,7 @@ def parse_arguments() -> Namespace:
     return parser.parse_args()
 
 
-def run_simulation(dining_class, n_philosophers=5, duration=15):
+def run_simulation(dining_class, n_philosophers=5, duration=20):
     print(f"Running solution {dining_class.__name__}")
     dining = dining_class(n_philosophers)
 
@@ -39,9 +39,7 @@ if __name__ == "__main__":
 
     if args.solution == "1":
         dining_class = solution1.DiningPhilosophersV1
-    elif args.solution == "2":
-        dining_class = solution2.DiningPhilosophersV2
     else:
-        dining_class = solution1opt.DiningPhilosophersV1_optimized
+        dining_class = solution2.DiningPhilosophersV2
 
     run_simulation(dining_class)

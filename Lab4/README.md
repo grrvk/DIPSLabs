@@ -15,4 +15,4 @@ uv run main.py --solution 1
 
 ## Options
 
-- `--solution` — solution version: `1`, `2` or `1.1`
+- `--solution` — solution version: `1`, `2`

@@ -1,20 +1,25 @@
 import threading
 import time
 import random
+import multiprocessing as mp
 
 from loguru import logger
+
 
 class DiningPhilosophersV1:
     def __init__(self, num_philosophers=5):
         self.num_philosophers = num_philosophers
 
-        self.semaphore = threading.Semaphore(num_philosophers - 1)
+        self.count_semaphore = threading.Semaphore(num_philosophers - 1)
+        self.forks = [mp.Lock() for _ in range(num_philosophers)]
+
         self.meal_count = [0] * num_philosophers
         self.start_time = None
 
     def philosopher(self, philosopher_id):
         if self.start_time is None:
             self.start_time = time.time()
+
         while True:
             self.think(philosopher_id)
             self.eat(philosopher_id)
@@ -24,11 +29,33 @@ class DiningPhilosophersV1:
         time.sleep(random.uniform(1, 3))
 
     def eat(self, philosopher_id):
-        self.semaphore.acquire()
+        left_fork = philosopher_id
+        right_fork = (philosopher_id + 1) % self.num_philosophers
+
+        self.count_semaphore.acquire()
+        logger.info(f"Philosopher {philosopher_id} entered the room")
+
+        first_fork = min(left_fork, right_fork)
+        second_fork = max(left_fork, right_fork)
+
+        self.forks[first_fork].acquire()
+        logger.info(f"Philosopher {philosopher_id} took fork {first_fork}")
+
+        self.forks[second_fork].acquire()
+        logger.info(f"Philosopher {philosopher_id} took fork {second_fork}")
+
         self.meal_count[philosopher_id] += 1
         logger.info(f"Philosopher {philosopher_id} eats.")
         time.sleep(random.uniform(1, 3))
-        self.semaphore.release()
+
+        self.forks[first_fork].release()
+        logger.info(f"Philosopher {philosopher_id} put down fork {first_fork}")
+
+        self.forks[second_fork].release()
+        logger.info(f"Philosopher {philosopher_id} put down fork {second_fork}")
+
+        self.count_semaphore.release()
+        logger.info(f"Philosopher {philosopher_id} left the room")
 
     def statistics(self):
         print("Solution 1 statistics")
@@ -39,6 +66,7 @@ class DiningPhilosophersV1:
         print(f"Runtime: {runtime:.1f} seconds")
         print(f"Total meals eaten: {total_meals}")
         print(f"Average meals/second: {total_meals / runtime:.2f}" if runtime > 0 else "N/A")
+
         print("\nPer philosopher:")
         for i, meals in enumerate(self.meal_count):
             print(f"  Philosopher {i}: {meals} meals")
@@ -49,4 +77,3 @@ class DiningPhilosophersV1:
             if max_meals > 0:
                 fairness = min_meals / max_meals
                 print(f"\nFairness ratio (min/max): {fairness:.2f}")
-        print()
